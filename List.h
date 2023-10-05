@@ -11,7 +11,7 @@ class List {
 	virtual T get(int pos) = 0;
 	virtual int search(T e) = 0;
 	virtual bool empty() = 0;
-	virtual int size() =0t commit -m "Añadida interfaz genérica List";
+	virtual int size() =0;
 
     	    // ... aquí los métodos virtuales puros
 };
