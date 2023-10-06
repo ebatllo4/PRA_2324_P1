@@ -1,3 +1,4 @@
+//git clone https://github.com/yt-dlp/yt-dlp.git
 #include <ostream>
 #include "List.h"
 
@@ -12,21 +13,24 @@ class ListArray : public List<T>{
 
            void resize(int new_size){
 		   T* new_arr = new T[new_size];
-		   for (int i = 0; i < max; i++){
-			   new_arr[i] = arr[i];     //Cal eliminar arr
+		   for (int i = 0; i < n; i++){
+			   new_arr[i] = arr[i];     //Cal llibera  memoria de arr
 		   }
+		   delete[] arr; 
+		   arr = new_arr;
+		   max = new_size;
 	    }
 
+    public:
+
 	    ~ListArray(){//No se si es la manera correcta d'eliminar-ho
-		   delete[] arr;
-		    n = 0;		   
+		   delete[] arr;		   
 	    }
         
 
-    public:
 	    ListArray(){
 		    arr = new T[MINSIZE];
-		    n = 1;
+		    n = 0;
 		    max = MINSIZE;
 	    }
 
@@ -35,49 +39,46 @@ class ListArray : public List<T>{
 		    if (pos >= 0 && pos < n) { 
 			    return arr[pos]; 
 		    }else { 
-			    throw std::invalid_argument("MAL!!"); 
+			    throw std::invalid_argument("Fuera de rango!"); 
 		    }
 
 	    }
 
 	    friend std::ostream& operator<<(std::ostream &out, const ListArray<T> &list){
-		    out<< list.arr << std::endl;
+		    for(int i; i < list.n; i++){
+		    	out<< list.arr[i] << std::endl;
+		    }
 		    return out;
 	    }
 
+
 	     bool empty() override final{
-                    return arr = nullptr;
+                    return n = 0;
             }
 
-	    /*void insert(int pos, T e) override final{
+	    void insert(int pos, T e) override final{
 		    if (n == max){
-			    arr->resize(max*2);
+			    resize(max*2);
 		    }   
-		    if(arr->empty()){
+
+		    if(pos < 0 || pos > n){
+			    throw std::out_of_range("Fuera de rango!");
+		    }
+		    if(empty()){
 			    arr = new T[MINSIZE];
 		    }
-		    /*if(pos == 0){
-	  		    arr.prepend(e);
+		    for(int i = n; i > pos; i--){
+			    arr[i] = arr[i-1];
 		    }
-		    if(pos == n){
-			    arr.append(e);
-		    }*/
-/*		    if(pos != 0 && pos != n){
-			    for(int i = n-1; i >= pos; i--){
-				    arr[i+1] = arr[i];
-			    }
 			    arr[pos] = e;
 			    n++;
-		    }	   
-	    }
+     	    }	   
+	    
 
 
-	    void append(T e){
-		    if (arr->empty()){
-			arr = new T[MINSIZE];
-		    }
-	 	    if (n >= max){
-		    	arr->resize(max*2);
+	      void append(T e) override final{
+		    if (n == max){
+			resize(max*2);
 		    }
 		    arr[n] = e;		
 		    n++;
@@ -85,31 +86,23 @@ class ListArray : public List<T>{
 
 
 	    void prepend(T e) override final{
-		    if (arr->empty()){
-                        arr = new T[MINSIZE];
-		    }
                     if (n == max ){
-                        arr->resize(max*2);
+                        resize(max*2);
                     }
-                    for (int i = n-1; i >= 0; i--){
-                    	arr[i+1] = arr[i];
+                    for (int i = n; i > 0; i--){
+                    	arr[i] = arr[i-1];
                     }
                     arr[0] = e;
                     n++;
             }
-*/
+
 
 	    T get(int pos) override final{
-		    return arr[pos-1];
-	    }
-
-	    int search(T e) override final{
-		   for(int i = 0; i < max-1; i++){
-			   if( arr[i] == e){
-				   return i;
-			    }
-		   }
-		   return -1;
+		    if(pos >= 0 && pos < n){
+		     	    return arr[pos-1];
+	    	    }else{
+			    throw std::out_of_range("Fuera de rango!");
+	    	    }
 	    }
 
 
@@ -119,12 +112,25 @@ class ListArray : public List<T>{
 	    }
 
 
-	    T remove(int pos){
-		    for(int i = pos; i < n; i++){
+	    T remove(int pos)override final{
+		    if(pos < 0|| pos>= n){
+			    throw std::out_of_range("Fuera de rango!");
+		    }
+		    T elem = arr[pos];
+		    for(int i = pos; i < n-1; i++){
 			    arr[i] = arr[i+1];
 		    }
 		    n--;
-		    return arr[pos];
+		    return elem;
 	    }
       	    
+	    int search(T e) override final {
+        	for (int i = 0; i < n; i++) {
+        	    if (arr[i] == e) {
+        	        return i;
+            	    }
+		}
+        	return -1; 
+    	    }
+
 };
