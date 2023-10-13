@@ -23,6 +23,6 @@ bool operator!=(const Point2D &a, const Point2D &b){
 
 
 std::ostream& operator<<(std::ostream &out, const Point2D &p){
-	out<< "(" << p.x << ", " << p.y << ") " << std::endl;
+	out<< "(" << p.x << ", " << p.y << ") ";
 	return out;
 }
