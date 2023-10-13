@@ -120,10 +120,12 @@ public:
 
     friend std::ostream& operator<<(std::ostream &out, const ListLinked<T> &list) {
         Node<T>* aux = list.first;
-        while (aux != nullptr) {
-            out << aux->data << std::endl;
+        out<< "List => [ ";
+	while (aux != nullptr) {
+            out << aux->data << " ";
             aux = aux->next;
         }
+	out<< "]" <<std::endl;
         return out;
     }
 };
