@@ -7,6 +7,9 @@
 #include "Point2D.h"
 
 class Rectangle : public Shape {
+	private:
+                static bool check(Point2D* v);
+
 	protected:
 		Point2D* vs;
 	
@@ -26,8 +29,6 @@ class Rectangle : public Shape {
 		virtual void translate(double incX, double incY) override;
 		virtual void print() override;
 
-	private:
-		static bool check(Point2D* vertices);
 };
 
 #endif
