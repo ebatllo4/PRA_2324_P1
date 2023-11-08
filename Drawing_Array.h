@@ -1,12 +1,14 @@
-#ifndef DRAWING_H
-#define DRAWING_H
+#ifndef DRAWING_ARRAY_H
+#define DRAWING_ARRAY_H
 
+#include "Circle.h"
+#include "Square.h"
 #include "Shape.h"
 #include "ListArray.h"
 
-class Drawing{
+class Drawing{ 
         private:
-                List<Shape*>* figuras;
+                ListArray<Shape*>* figuras;
         public:
                 Drawing();
                 ~Drawing();
@@ -15,6 +17,7 @@ class Drawing{
                 void print_all();
                 double get_area_all_circles();
                 void move_squares(double incX, double incY);
+		
 };
 
 #endif
